@@ -1,23 +1,16 @@
+import React from "react";
+import TodoProvider from "./providers/TodoProvider";
 import { Stack } from "expo-router";
 
 const RootLayout = () => {
+  return (
+    <TodoProvider>
+      <Stack>
+        <Stack.Screen name="index" />
+        <Stack.Screen name="add-task" />
+      </Stack>
+    </TodoProvider>
+  );
+};
 
-    return (
-
-    <Stack
-    screenOptions={{
-      headerStyle: {
-        backgroundColor: '#f4511e',
-      },
-      headerTintColor: '#fff',
-      headerTitleStyle: {
-        fontWeight: 'bold',
-      },
-    }}>
-    <Stack.Screen name="index" />
-    <Stack.Screen name="add-task" />
-  </Stack>
-    )
-}
-
-export default RootLayout
+export default RootLayout;
