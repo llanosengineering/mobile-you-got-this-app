@@ -27,13 +27,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   button: {
-    backgroundColor: "#6a5acd",
+    backgroundColor: "#6b8e23",
     paddingVertical: 12,
     paddingHorizontal: 18,
     borderRadius: 40,
   },
   disabledBtn: {
-    backgroundColor: "#BFB8E9",
+    backgroundColor: "#708090",
     paddingVertical: 12,
     paddingHorizontal: 18,
     borderRadius: 40,

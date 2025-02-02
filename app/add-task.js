@@ -3,6 +3,7 @@ import { Pressable, StyleSheet, TextInput, Text, View } from "react-native";
 import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
 import TodoContext from "./context/TodoContext";
 import styles from "./global/styles";
+import uuid from "react-native-uuid";
 
 const AddTask = () => {
   const { todosList, setTodosList } = useContext(TodoContext);
@@ -10,7 +11,14 @@ const AddTask = () => {
 
   const handleNewTaskItem = () => {
     if (newTask.trim() !== "")
-      setTodosList([...todosList, { task: newTask, isComplete: false }]);
+      setTodosList([
+        ...todosList,
+        {
+          id: uuid.v4(),
+          task: newTask,
+          isComplete: false,
+        },
+      ]);
     setNewTask("");
   };
 

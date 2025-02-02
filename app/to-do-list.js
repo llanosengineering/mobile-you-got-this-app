@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SwipeListView } from "react-native-swipe-list-view";
 
 const ToDoList = ({ todosList }) => {
@@ -12,7 +12,7 @@ const ToDoList = ({ todosList }) => {
       {todosList.length > 0 ? (
         <SwipeListView
           data={todosList}
-          keyExtractor={(item, index) => index.toString()}
+          keyExtractor={(item, index) => item.id}
           renderItem={({ item }) => (
             <View style={localStyles.listItem}>
               <Text>{item.task}</Text>
@@ -20,9 +20,28 @@ const ToDoList = ({ todosList }) => {
           )}
           leftOpenValue={75}
           rightOpenValue={-75}
-          renderHiddenItem={() => (
-            <View style={localStyles.hiddenItem}>
-              <Text style={localStyles.hiddenText}>Delete</Text>
+          renderHiddenItem={(rowData, rowMap) => (
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-between" }}
+            >
+              <TouchableOpacity
+                style={localStyles.hiddenEditItem}
+                onPress={() => {
+                  console.log("Edit:", rowData.item);
+                  rowMap[rowData.item.id].closeRow();
+                }}
+              >
+                <Text style={localStyles.hiddenText}>Edit</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={localStyles.hiddenDeleteItem}
+                onPress={() => {
+                  console.log("Delete:", rowData.item);
+                  rowMap[rowData.item.id].closeRow();
+                }}
+              >
+                <Text style={localStyles.hiddenText}>Delete</Text>
+              </TouchableOpacity>
             </View>
           )}
         />
@@ -36,18 +55,29 @@ const ToDoList = ({ todosList }) => {
 const localStyles = StyleSheet.create({
   listWrapper: {
     flex: 1,
+    padding: 20,
   },
   listItem: {
     padding: 15,
     backgroundColor: "#f8f9fa",
     borderBottomWidth: 1,
     borderBottomColor: "#ccc",
+    marginVertical: 8,
   },
-  hiddenItem: {
+  hiddenEditItem: {
+    backgroundColor: "#7b68ee",
+    flex: 1,
+    justifyContent: "center",
+    padding: 15,
+    marginVertical: 2,
+  },
+  hiddenDeleteItem: {
     backgroundColor: "#f05d5e",
     flex: 1,
     justifyContent: "center",
-    paddingLeft: 20,
+    alignItems: "flex-end",
+    padding: 15,
+    marginVertical: 2,
   },
   hiddenText: {
     color: "white",
@@ -63,8 +93,7 @@ const localStyles = StyleSheet.create({
  * TO DO: ToDoList
  *
  * - Add styling to No Tasks Yet! message
- * - Add padding to list margins
- * - Other option: Make editable / Edit option should have its own color
+ * - Other option: Make editable
  * - Save deletions and edits
  * - Display error when deletion/edit fails
  */
