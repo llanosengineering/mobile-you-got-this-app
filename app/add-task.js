@@ -4,22 +4,25 @@ import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
 import TodoContext from "./context/TodoContext";
 import styles from "./global/styles";
 import uuid from "react-native-uuid";
+import { addDoc, collection } from "firebase/firestore";
+import { FIRESTORE_DB } from "../firebaseConfig";
 
 const AddTask = () => {
   const { todosList, setTodosList } = useContext(TodoContext);
   const [newTask, setNewTask] = useState("");
 
-  const handleNewTaskItem = () => {
-    if (newTask.trim() !== "")
-      setTodosList([
-        ...todosList,
-        {
-          id: uuid.v4(),
-          task: newTask,
-          isComplete: false,
-        },
-      ]);
-    setNewTask("");
+  const addTodo = async () => {
+    try {
+      const docRef = await addDoc(collection(FIRESTORE_DB, "toDoList"), {
+        id: uuid.v4(),
+        title: newTask,
+        isCompleted: false,
+      });
+      setNewTask("");
+      console.log("Task document saved to DB: ", docRef);
+    } catch (e) {
+      console.error("Error adding task document: ", e);
+    }
   };
 
   return (
@@ -32,7 +35,7 @@ const AddTask = () => {
           <View style={{ flexDirection: "row", justifyContent: "center" }}>
             <TextInput
               style={localStyles.input}
-              onChangeText={setNewTask}
+              onChangeText={(task) => setNewTask(task)}
               value={newTask}
               placeholder="What needs to be done?"
               placeholderTextColor="#999"
@@ -40,7 +43,7 @@ const AddTask = () => {
             <Pressable
               disabled={!newTask.length}
               style={!newTask.length ? styles.disabledBtn : styles.button}
-              onPress={handleNewTaskItem}
+              onPress={addTodo}
             >
               <Text style={styles.buttonText}>Add</Text>
             </Pressable>
@@ -67,7 +70,6 @@ const localStyles = StyleSheet.create({
 /**
  * TO DO: AddTask
  *
- * - Save additions
  * - Display error when save fails
  * - Display success when save is successful
  */

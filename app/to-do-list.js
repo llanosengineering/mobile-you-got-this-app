@@ -15,7 +15,7 @@ const ToDoList = ({ todosList }) => {
           keyExtractor={(item, index) => item.id}
           renderItem={({ item }) => (
             <View style={localStyles.listItem}>
-              <Text>{item.task}</Text>
+              <Text>{item.title}</Text>
             </View>
           )}
           leftOpenValue={75}
