@@ -2,8 +2,11 @@ import React, { createContext } from "react";
 const TodoContext = createContext({
   todosList: [],
   setTodosList: () => {},
-  handleDeleteToDo: () => {},
-  handleEditToDo: () => {},
+  handleDeleteTodo: () => {},
+  handleEditTodo: () => {},
+  handleSaveEdit: () => {},
+  newTask: "",
+  setNewTask: () => {},
 });
 
 export default TodoContext;

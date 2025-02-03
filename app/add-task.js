@@ -1,25 +1,18 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { Pressable, StyleSheet, TextInput, Text, View } from "react-native";
 import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
 import styles from "./global/styles";
-import { addDoc, collection } from "firebase/firestore";
-import { FIRESTORE_DB } from "../firebaseConfig";
+import TodoContext from "./context/TodoContext";
 
 const AddTask = () => {
-  const [newTask, setNewTask] = useState("");
+  const { handleSaveEdit, isEditing, newTask, setNewTask } =
+    useContext(TodoContext);
 
-  const addTodo = async () => {
-    try {
-      const docRef = await addDoc(collection(FIRESTORE_DB, "toDoList"), {
-        title: newTask,
-        completed: false,
-      });
-      setNewTask("");
-      console.log("Task document saved to DB: ", docRef.id);
-    } catch (e) {
-      console.error("Error adding task document: ", e);
+  useEffect(() => {
+    if (isEditing && newTask) {
+      setNewTask(newTask);
     }
-  };
+  }, [isEditing, newTask]);
 
   return (
     <View style={styles.container}>
@@ -39,9 +32,11 @@ const AddTask = () => {
             <Pressable
               disabled={!newTask.length}
               style={!newTask.length ? styles.disabledBtn : styles.button}
-              onPress={addTodo}
+              onPress={handleSaveEdit}
             >
-              <Text style={styles.buttonText}>Add</Text>
+              <Text style={styles.buttonText}>
+                {isEditing ? "SAVE" : "ADD"}
+              </Text>
             </Pressable>
           </View>
         </SafeAreaView>

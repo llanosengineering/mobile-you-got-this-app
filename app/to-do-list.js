@@ -4,10 +4,11 @@ import { SwipeListView } from "react-native-swipe-list-view";
 import TodoContext from "./context/TodoContext";
 
 const ToDoList = ({ todosList }) => {
-  const { handleDeleteTodo, handleEditTodo } = useContext(TodoContext);
+  const { handleDeleteTodo, handleEditTodo, isEditing } =
+    useContext(TodoContext);
   useEffect(() => {
     console.log("ToDoList.js + todosList ==>", todosList);
-  }, [todosList]);
+  }, [todosList, isEditing]);
 
   return (
     <View style={localStyles.listWrapper}>
@@ -38,7 +39,7 @@ const ToDoList = ({ todosList }) => {
               <TouchableOpacity
                 style={localStyles.hiddenDeleteItem}
                 onPress={async () => {
-                  await handleDeleteTodo(rowData.item);
+                  handleDeleteTodo(rowData.item);
                   rowMap[rowData.item.id]?.closeRow();
                 }}
               >
