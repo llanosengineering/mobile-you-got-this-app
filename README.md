@@ -46,8 +46,18 @@ EXPO_ROUTER_APP_ROOT="./app"
 * Firebase
 
 ## Preview
+
+### Overview
 ![Screenshot 2025-02-02 at 11 14 50 PM](https://github.com/user-attachments/assets/5e899c49-a628-4a1b-8890-4c2cc4bd93a8)
 
+### Edit Option
+![Screenshot 2025-02-02 at 11 35 53 PM](https://github.com/user-attachments/assets/9459897c-3eb5-46b4-b673-b24f3336e4f9)
+
+### Remove Option
+![Screenshot 2025-02-02 at 11 36 04 PM](https://github.com/user-attachments/assets/f8c213c4-9b5e-4438-b942-d0a03dda7a43)
+
+### Add Option
+![Screenshot 2025-02-02 at 11 36 11 PM](https://github.com/user-attachments/assets/5448bf2e-4b00-4be0-809d-ba4fcef4080f)
 
 
 
