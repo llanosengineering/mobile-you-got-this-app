@@ -12,13 +12,21 @@ const HomeScreen = () => {
       <View style={styles.headerContainer}>
         <Text style={styles.header}>YOU GOT THIS</Text>
       </View>
+      <View style={styles.headerContainer}>
+        <Text style={styles.subHeader}>{`You have (${
+          todosList.length + 1
+        }) outstanding tasks.`}</Text>
+      </View>
+      <View style={styles.headerContainer}>
+        <Text>Swipe to edit or remove a task.</Text>
+      </View>
       <View style={styles.contentContainer}>
         <ToDoList styles={styles} todosList={todosList} />
       </View>
       <View style={styles.buttonContainer}>
         <Link href="/add-task" asChild>
           <Pressable style={styles.button}>
-            <Text style={styles.buttonText}>Add Task</Text>
+            <Text style={styles.buttonText}>ADD TASK</Text>
           </Pressable>
         </Link>
       </View>

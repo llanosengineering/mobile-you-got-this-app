@@ -16,6 +16,11 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 30,
     letterSpacing: 6,
+    textAlign: "center",
+  },
+  subHeader: {
+    color: "charcoal",
+    fontWeight: "bold",
   },
   contentContainer: {
     flex: 4,

@@ -7,8 +7,11 @@ import {
   doc,
   deleteDoc,
   onSnapshot,
+  orderBy,
+  query,
   updateDoc,
 } from "firebase/firestore";
+
 import { useRouter } from "expo-router";
 import { useSearchParams } from "expo-router/build/hooks";
 
@@ -24,18 +27,22 @@ const TodoProvider = ({ children }) => {
   useEffect(() => {
     const toDoListRef = collection(FIRESTORE_DB, "toDoList");
 
-    const subscriber = onSnapshot(toDoListRef, {
-      next: (snapshot) => {
-        const todos = [];
-        snapshot.docs.forEach((doc) => {
-          todos.push({
-            id: doc.id,
-            ...doc.data(),
+    const subscriber = onSnapshot(
+      toDoListRef,
+      query(toDoListRef, orderBy("timestamp", "asc")),
+      {
+        next: (snapshot) => {
+          const todos = [];
+          snapshot.docs.forEach((doc) => {
+            todos.push({
+              id: doc.id,
+              ...doc.data(),
+            });
           });
-        });
-        setTodosList(todos);
-      },
-    });
+          setTodosList(todos);
+        },
+      }
+    );
 
     return () => subscriber();
   }, []);
@@ -51,14 +58,14 @@ const TodoProvider = ({ children }) => {
   // Handle add task
   const addTodo = async () => {
     try {
-      const docRef = await addDoc(collection(FIRESTORE_DB, "toDoList"), {
+      await addDoc(collection(FIRESTORE_DB, "toDoList"), {
         title: newTask,
         completed: false,
+        timestamp: new Date(),
       });
       setNewTask("");
-      console.log("Task document saved to DB: ", docRef.id);
     } catch (e) {
-      console.error("Error adding task document: ", e);
+      alert("An error occurred. Please try again.");
     }
   };
 
@@ -98,18 +105,10 @@ const TodoProvider = ({ children }) => {
       setEditingTaskId(null);
       router.push("/");
     } catch (e) {
-      console.error("Error saving task document: ", e);
+      alert("Could not save your changes. Please try again.");
     } finally {
       setIsEditing(false);
     }
-  };
-
-  // Handle mark as complete
-  const handleMarkAsCompleted = async (item) => {
-    const ref = doc(FIRESTORE_DB, "toDoList", item.id);
-    try {
-      updateDoc(ref, { title: "" });
-    } catch (e) {}
   };
 
   return (
@@ -128,9 +127,5 @@ const TodoProvider = ({ children }) => {
     </TodoContext.Provider>
   );
 };
-
-// TODO: Provider
-// Option to mark as complete
-// Success & error indicators
 
 export default TodoProvider;

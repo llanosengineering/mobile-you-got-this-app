@@ -17,7 +17,7 @@ const AddTask = () => {
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
-        <Text style={styles.header}>GOALS</Text>
+        <Text style={styles.header}>What needs to be done?</Text>
       </View>
       <SafeAreaProvider>
         <SafeAreaView style={localStyles.inputContainer}>
@@ -26,7 +26,7 @@ const AddTask = () => {
               style={localStyles.input}
               onChangeText={(task) => setNewTask(task)}
               value={newTask}
-              placeholder="What needs to be done?"
+              placeholder="Ex: Laundry"
               placeholderTextColor="#999"
             />
             <Pressable
@@ -57,12 +57,5 @@ const localStyles = StyleSheet.create({
     backgroundColor: "white",
   },
 });
-
-/**
- * TO DO: AddTask
- *
- * - Display error when save fails
- * - Display success when save is successful
- */
 
 export default AddTask;
