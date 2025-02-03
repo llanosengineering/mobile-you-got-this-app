@@ -12,14 +12,23 @@ const HomeScreen = () => {
       <View style={styles.headerContainer}>
         <Text style={styles.header}>YOU GOT THIS</Text>
       </View>
-      <View style={styles.headerContainer}>
-        <Text style={styles.subHeader}>{`You have (${
-          todosList.length + 1
-        }) outstanding tasks.`}</Text>
-      </View>
-      <View style={styles.headerContainer}>
-        <Text>Swipe to edit or remove a task.</Text>
-      </View>
+      {todosList.length > 0 ? (
+        <View>
+          <View style={styles.headerContainer}>
+            <Text
+              style={styles.subHeader}
+            >{`You have (${todosList.length}) outstanding task(s).`}</Text>
+          </View>
+          <View style={styles.headerContainer}>
+            <Text>Swipe to edit or remove a task.</Text>
+          </View>
+        </View>
+      ) : (
+        <View style={styles.headerContainer}>
+          <Text style={styles.subHeader}>You have no outstanding tasks.</Text>
+          <Text>Get started by using the button below.</Text>
+        </View>
+      )}
       <View style={styles.contentContainer}>
         <ToDoList styles={styles} todosList={todosList} />
       </View>
