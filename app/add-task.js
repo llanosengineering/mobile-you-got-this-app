@@ -1,25 +1,21 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Pressable, StyleSheet, TextInput, Text, View } from "react-native";
 import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
-import TodoContext from "./context/TodoContext";
 import styles from "./global/styles";
-import uuid from "react-native-uuid";
 import { addDoc, collection } from "firebase/firestore";
 import { FIRESTORE_DB } from "../firebaseConfig";
 
 const AddTask = () => {
-  const { todosList, setTodosList } = useContext(TodoContext);
   const [newTask, setNewTask] = useState("");
 
   const addTodo = async () => {
     try {
       const docRef = await addDoc(collection(FIRESTORE_DB, "toDoList"), {
-        id: uuid.v4(),
         title: newTask,
-        isCompleted: false,
+        completed: false,
       });
       setNewTask("");
-      console.log("Task document saved to DB: ", docRef);
+      console.log("Task document saved to DB: ", docRef.id);
     } catch (e) {
       console.error("Error adding task document: ", e);
     }

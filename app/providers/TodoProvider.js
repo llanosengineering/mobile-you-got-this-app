@@ -11,7 +11,6 @@ import {
 
 const TodoProvider = ({ children }) => {
   const [todosList, setTodosList] = useState([]);
-
   // Add new tasks to toDoList array as they are added
   useEffect(() => {
     const toDoListRef = collection(FIRESTORE_DB, "toDoList");
@@ -28,25 +27,37 @@ const TodoProvider = ({ children }) => {
         setTodosList(todos);
       },
     });
-    console.log(todosList);
+
     return () => subscriber();
   }, []);
 
-  // Fetch toDoList collection
-  // const fetchData = ({item}) => {
-  //   const todoRef = doc(FIRESTORE_DB, `toDoList/${item.id}`)
-
-  // }
-
   // Handle deleting tasks
+  const handleDeleteTodo = async (item) => {
+    if (!item?.id) return;
+    const ref = doc(FIRESTORE_DB, "toDoList", item.id);
+    try {
+      deleteDoc(ref);
+    } catch (e) {
+      alert("Failed to delete task. Please try again");
+    }
+  };
 
   // Handle editing a task
+  const handleEditTodo = async (item) => {
+    console.log("item", item.title);
+  };
 
   return (
-    <TodoContext.Provider value={{ todosList, setTodosList }}>
+    <TodoContext.Provider
+      value={{ todosList, setTodosList, handleDeleteTodo, handleEditTodo }}
+    >
       {children}
     </TodoContext.Provider>
   );
 };
+
+// TODO: Provider
+// Handle editing a task
+// Option to mark as complete
 
 export default TodoProvider;

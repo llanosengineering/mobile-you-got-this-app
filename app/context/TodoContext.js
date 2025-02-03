@@ -1,7 +1,9 @@
-import React, { createContext, useState } from "react";
+import React, { createContext } from "react";
 const TodoContext = createContext({
   todosList: [],
   setTodosList: () => {},
+  handleDeleteToDo: () => {},
+  handleEditToDo: () => {},
 });
 
 export default TodoContext;

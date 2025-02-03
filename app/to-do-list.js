@@ -1,8 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SwipeListView } from "react-native-swipe-list-view";
+import TodoContext from "./context/TodoContext";
 
 const ToDoList = ({ todosList }) => {
+  const { handleDeleteTodo, handleEditTodo } = useContext(TodoContext);
   useEffect(() => {
     console.log("ToDoList.js + todosList ==>", todosList);
   }, [todosList]);
@@ -12,7 +14,7 @@ const ToDoList = ({ todosList }) => {
       {todosList.length > 0 ? (
         <SwipeListView
           data={todosList}
-          keyExtractor={(item, index) => item.id}
+          keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <View style={localStyles.listItem}>
               <Text>{item.title}</Text>
@@ -27,17 +29,17 @@ const ToDoList = ({ todosList }) => {
               <TouchableOpacity
                 style={localStyles.hiddenEditItem}
                 onPress={() => {
-                  console.log("Edit:", rowData.item);
-                  rowMap[rowData.item.id].closeRow();
+                  handleEditTodo(rowData.item);
+                  rowMap[rowData.item.id]?.closeRow();
                 }}
               >
                 <Text style={localStyles.hiddenText}>Edit</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={localStyles.hiddenDeleteItem}
-                onPress={() => {
-                  console.log("Delete:", rowData.item);
-                  rowMap[rowData.item.id].closeRow();
+                onPress={async () => {
+                  await handleDeleteTodo(rowData.item);
+                  rowMap[rowData.item.id]?.closeRow();
                 }}
               >
                 <Text style={localStyles.hiddenText}>Delete</Text>
@@ -88,14 +90,5 @@ const localStyles = StyleSheet.create({
     marginTop: 10,
   },
 });
-
-/**
- * TO DO: ToDoList
- *
- * - Add styling to No Tasks Yet! message
- * - Other option: Make editable
- * - Save deletions and edits
- * - Display error when deletion/edit fails
- */
 
 export default ToDoList;
